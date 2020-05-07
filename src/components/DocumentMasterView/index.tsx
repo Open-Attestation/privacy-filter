@@ -1,0 +1,1 @@
+export { DocumentMasterView } from './DocumentMasterView';

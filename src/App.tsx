@@ -3,8 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Jumbotron from 'react-bootstrap/Jumbotron';
-import { DocumentDropzone } from './components/DocumentDropzone';
-import { DocumentTreeView } from './components/DocumentTreeView'
+import { DocumentMasterView } from './components/DocumentMasterView';
 
 function App() {
   return (
@@ -16,13 +15,7 @@ function App() {
         </Jumbotron>
         <Row>
           <Col>
-            <DocumentDropzone />
-          </Col>
-        </Row>
-
-        <Row>
-          <Col>
-            <DocumentTreeView />
+            <DocumentMasterView />
           </Col>
         </Row>
       </Container>
