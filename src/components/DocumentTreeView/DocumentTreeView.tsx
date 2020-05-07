@@ -1,6 +1,8 @@
 import React from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
 import JSONTree from 'react-json-tree';
 
 function valueRenderer(raw) {
@@ -36,22 +38,98 @@ export const DocumentTreeView = (props) => {
     base0E: '#ae81ff',
     base0F: '#cc6633'
   };
-  console.log(props)
 
   if (props.document) {
-    const data = props.document.data;
+    const document = props.document;
+    const data = document.data;
+
+
+    const DisplayRecommendations = () => {
+
+      if (!data) {
+        return (
+          <></>
+        )
+      }
+
+      const recipient = ['nric', 'email', 'email_address', 'phone', 'phone_number']
+
+      const detectedFields = [] as any
+
+      const RemovalList = () => {
+        return (
+          <></>
+        )
+      }
+
+      const accessor = (path, obj) => {
+        path.split('.').reduce(function(o, k) {
+          return o[k]
+        }, obj)
+      }
+
+      const RecommendationsTable = (props) => {
+        return (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Data Field</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </Table>
+        )
+      }
+
+      recipient.forEach(function (field) {
+        if (field in data.recipient) {
+          console.log("recipient.%s exists", field)
+          detectedFields.push("recipient." + field)
+          accessor("recipient." + field, data)
+        }
+      })
+
+      if (detectedFields.length) {
+        console.log(detectedFields)
+        return (
+          <Alert variant="warning">
+            <Alert.Heading>
+              🔍 Hold up
+            </Alert.Heading>
+            <p>
+              We detected some fields that may potentially reveal some sensitive info if you were to share this OpenCert file.
+              {detectedFields}
+            </p>
+            <RemovalList></RemovalList>
+            <hr />
+            <p className="mb-0">
+              Accept recommendations and remove ...
+            </p>
+          </Alert>
+        )
+      }
+      else {
+        return (
+          <></>
+        )
+      }
+    }
 
     return (
       <Card>
         <Card.Header>OpenCerts Viewer</Card.Header>
         <Card.Body>
-          <Card.Text>
-            <JSONTree
-              data={data}
-              theme={theme}
-              invertTheme={true}
-              valueRenderer={(raw) => valueRenderer(raw)} />
-          </Card.Text>
+          <DisplayRecommendations />
+          <JSONTree
+            data={data}
+            theme={theme}
+            invertTheme={true}
+            valueRenderer={(raw) => valueRenderer(raw)}
+            shouldExpandNode={() => false}
+            hideRoot />
         </Card.Body>
       </Card>
     )
