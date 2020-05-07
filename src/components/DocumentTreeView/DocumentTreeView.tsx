@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import JSONTree from 'react-json-tree';
+import OpenCert from '@govtechsg/open-certificate';
 
 function valueRenderer(raw) {
   return (
@@ -78,7 +79,7 @@ export const DocumentTreeView = (props) => {
               </tr>
             </thead>
             <tbody>
-              
+
             </tbody>
           </Table>
         )
