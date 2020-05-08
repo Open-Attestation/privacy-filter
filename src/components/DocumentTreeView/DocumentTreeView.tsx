@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -18,11 +18,18 @@ function redactValue(path) {
   return true
 }
 
+function redact(data, fields) {
+  return OpenCert.obfuscateFields(data, [
+    "recipient.nric",
+    "recipient.email"
+  ])
+}
+
 export const DocumentTreeView = (props) => {
   const theme = {
     scheme: 'monokai',
     author: 'wimer hazenberg (http://www.monokai.nl)',
-    base00: '#272822',
+    base00: '#000000',
     base01: '#383830',
     base02: '#49483e',
     base03: '#75715e',
@@ -54,7 +61,6 @@ export const DocumentTreeView = (props) => {
       }
 
       const recipient = ['nric', 'email', 'email_address', 'phone', 'phone_number']
-
       const detectedFields = [] as any
 
       const RemovalList = () => {
@@ -63,15 +69,25 @@ export const DocumentTreeView = (props) => {
         )
       }
 
-      const accessor = (path, obj) => {
-        path.split('.').reduce(function(o, k) {
-          return o[k]
+      const getValue = (path, obj) => {
+        path.split('.').reduce(function (o, k) {
+          return (
+            <td>{o[k]}</td>
+          )
         }, obj)
       }
 
+      // Might need to rework this some day to search the entire object
+      recipient.forEach(function (field) {
+        if (field in data.recipient) {
+          console.log("recipient.%s exists", field)
+          detectedFields.push("recipient." + field)
+        }
+      })
+
       const RecommendationsTable = (props) => {
         return (
-          <Table striped bordered hover>
+          <Table striped bordered hover size="sm">
             <thead>
               <tr>
                 <th>Data Field</th>
@@ -79,37 +95,44 @@ export const DocumentTreeView = (props) => {
               </tr>
             </thead>
             <tbody>
-
+              {props.fields.map(row => {
+                const value = getValue(row, props.data)
+                console.log(row, value)
+                return (
+                  <tr key={row}>
+                    <td>{row}</td>
+                    <td></td>
+                  </tr>
+                )
+              })}
             </tbody>
           </Table>
         )
       }
 
-      recipient.forEach(function (field) {
-        if (field in data.recipient) {
-          console.log("recipient.%s exists", field)
-          detectedFields.push("recipient." + field)
-          accessor("recipient." + field, data)
-        }
-      })
+      // Check signature
+      if ("signature" in data.additionalData.certSignatories[0]) {
+        data.additionalData.certSignatories[0].signature = "This field has been hidden."
+      }
 
       if (detectedFields.length) {
         console.log(detectedFields)
         return (
-          <Alert variant="warning">
-            <Alert.Heading>
-              🔍 Hold up
-            </Alert.Heading>
-            <p>
-              We detected some fields that may potentially reveal some sensitive info if you were to share this OpenCert file.
-              {detectedFields}
-            </p>
-            <RemovalList></RemovalList>
-            <hr />
-            <p className="mb-0">
-              Accept recommendations and remove ...
-            </p>
-          </Alert>
+          <Card className="mb-4">
+            <Card.Header>🔍 Hold up</Card.Header>
+            <Card.Body>
+              <Alert variant="warning">
+                <Alert.Heading>
+                  Before you continue...
+                </Alert.Heading>
+                We detected some fields that may potentially reveal some sensitive info if you were to share this OpenCert file.
+                Below is a preview.
+              </Alert>
+              <RecommendationsTable data={data} fields={detectedFields}></RecommendationsTable>
+            </Card.Body>
+          </Card>
+
+          
         )
       }
       else {
@@ -120,19 +143,21 @@ export const DocumentTreeView = (props) => {
     }
 
     return (
-      <Card>
-        <Card.Header>OpenCerts Viewer</Card.Header>
-        <Card.Body>
-          <DisplayRecommendations />
-          <JSONTree
-            data={data}
-            theme={theme}
-            invertTheme={true}
-            valueRenderer={(raw) => valueRenderer(raw)}
-            shouldExpandNode={() => false}
-            hideRoot />
-        </Card.Body>
-      </Card>
+      <>
+        <DisplayRecommendations></DisplayRecommendations>
+        <Card>
+          <Card.Header>OpenCerts Viewer</Card.Header>
+          <Card.Body>
+            <JSONTree
+              data={data}
+              theme={theme}
+              invertTheme={true}
+              valueRenderer={(raw) => valueRenderer(raw)}
+              shouldExpandNode={() => true}
+              hideRoot />
+          </Card.Body>
+        </Card>
+      </>
     )
   }
   else {
