@@ -1,29 +1,12 @@
 import React, { useState } from 'react';
+import * as _ from 'lodash'
 import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
-import JSONTree from 'react-json-tree';
-import OpenCert from '@govtechsg/open-certificate';
-
-function valueRenderer(raw) {
-  return (
-    <span>
-      {raw} <Button variant="danger" size="sm">Redact</Button>
-    </span>
-  )
-}
-
-function redactValue(path) {
-  return true
-}
-
-function redact(data, fields) {
-  return OpenCert.obfuscateFields(data, [
-    "recipient.nric",
-    "recipient.email"
-  ])
-}
+import { obfuscateDocument } from '@govtechsg/open-attestation';
+import { saveAs } from 'file-saver';
+import ReactJson from 'react-json-view';
 
 export const DocumentTreeView = (props) => {
   const theme = {
@@ -51,6 +34,9 @@ export const DocumentTreeView = (props) => {
     const document = props.document;
     const data = document.data;
 
+    const recipient = ['nric', 'email', 'email_address', 'phone', 'phone_number']
+    const detectedFields = [] as any
+    const detectedValues = [] as any
 
     const DisplayRecommendations = () => {
 
@@ -60,32 +46,18 @@ export const DocumentTreeView = (props) => {
         )
       }
 
-      const recipient = ['nric', 'email', 'email_address', 'phone', 'phone_number']
-      const detectedFields = [] as any
-
-      const RemovalList = () => {
-        return (
-          <></>
-        )
-      }
-
-      const getValue = (path, obj) => {
-        path.split('.').reduce(function (o, k) {
-          return (
-            <td>{o[k]}</td>
-          )
-        }, obj)
-      }
-
       // Might need to rework this some day to search the entire object
       recipient.forEach(function (field) {
         if (field in data.recipient) {
           console.log("recipient.%s exists", field)
           detectedFields.push("recipient." + field)
+          detectedValues.push(data.recipient[field])
         }
       })
 
       const RecommendationsTable = (props) => {
+        const list = _.zip(props.fields, props.values) as any
+
         return (
           <Table striped bordered hover size="sm">
             <thead>
@@ -95,13 +67,11 @@ export const DocumentTreeView = (props) => {
               </tr>
             </thead>
             <tbody>
-              {props.fields.map(row => {
-                const value = getValue(row, props.data)
-                console.log(row, value)
+              {list.map(row => {
                 return (
-                  <tr key={row}>
-                    <td>{row}</td>
-                    <td></td>
+                  <tr key={row[0]}>
+                    <td>{row[0]}</td>
+                    <td><code>{row[1].split(':')[2]}</code></td>
                   </tr>
                 )
               })}
@@ -111,12 +81,11 @@ export const DocumentTreeView = (props) => {
       }
 
       // Check signature
-      if ("signature" in data.additionalData.certSignatories[0]) {
-        data.additionalData.certSignatories[0].signature = "This field has been hidden."
-      }
+      // if ("signature" in data.additionalData.certSignatories[0]) {
+      //   data.additionalData.certSignatories[0].signature = "This field has been hidden."
+      // }
 
       if (detectedFields.length) {
-        console.log(detectedFields)
         return (
           <Card className="mb-4">
             <Card.Header>🔍 Hold up</Card.Header>
@@ -125,14 +94,11 @@ export const DocumentTreeView = (props) => {
                 <Alert.Heading>
                   Before you continue...
                 </Alert.Heading>
-                We detected some fields that may potentially reveal some sensitive info if you were to share this OpenCert file.
-                Below is a preview.
+                We detected some fields that may potentially reveal some sensitive info if you were to share this OpenCert file publicly.
               </Alert>
-              <RecommendationsTable data={data} fields={detectedFields}></RecommendationsTable>
+              <RecommendationsTable data={data} fields={detectedFields} values={detectedValues}></RecommendationsTable>
             </Card.Body>
           </Card>
-
-          
         )
       }
       else {
@@ -142,19 +108,31 @@ export const DocumentTreeView = (props) => {
       }
     }
 
+    const copy = (copy) => {
+      // Handle onClick event to remove the particular field
+      console.log(copy);
+    }
+
+    const download = () => {
+      const redacted = obfuscateDocument(document, detectedFields)
+      const blob = new Blob([JSON.stringify(redacted, null, 2)], {
+        type: "application/json"
+      })
+      saveAs(blob, "certificate.opencert")
+    }
+
     return (
       <>
         <DisplayRecommendations></DisplayRecommendations>
         <Card>
           <Card.Header>OpenCerts Viewer</Card.Header>
           <Card.Body>
-            <JSONTree
-              data={data}
-              theme={theme}
-              invertTheme={true}
-              valueRenderer={(raw) => valueRenderer(raw)}
-              shouldExpandNode={() => true}
-              hideRoot />
+            <ReactJson
+              src={data}
+              enableClipboard={copy} // Event handler
+              collapseStringsAfterLength={100} />
+
+            <Button onClick={download} className="mt-2">Download</Button>
           </Card.Body>
         </Card>
       </>
