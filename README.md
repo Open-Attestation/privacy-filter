@@ -1,3 +1,7 @@
+# OpenCerts Privacy Filter
+
+![Coveralls](https://s3.amazonaws.com/assets.coveralls.io/badges/coveralls_unknown.svg)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
