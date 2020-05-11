@@ -1,1 +1,0 @@
-export { DocumentDropzone } from './DocumentDropzone';
