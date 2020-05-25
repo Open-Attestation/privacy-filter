@@ -23,7 +23,7 @@ function App() {
           </Col>
         </Row>
         <hr />
-        <a href="https://github.com/gjj/opencerts-privacy-filter" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://github.com/gjj/privacy-filter" target="_blank" rel="noopener noreferrer">GitHub</a>
       </Container>
     </div>
   );
