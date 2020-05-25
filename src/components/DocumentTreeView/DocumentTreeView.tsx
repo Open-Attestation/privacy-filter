@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import * as _ from 'lodash'
+import React from 'react';
+import _ from 'lodash';
 import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -34,27 +34,6 @@ const RecommendationsTable = (props) => {
 }
 
 export const DocumentTreeView = (props) => {
-  const theme = {
-    scheme: 'monokai',
-    author: 'wimer hazenberg (http://www.monokai.nl)',
-    base00: '#000000',
-    base01: '#383830',
-    base02: '#49483e',
-    base03: '#75715e',
-    base04: '#a59f85',
-    base05: '#f8f8f2',
-    base06: '#f5f4f1',
-    base07: '#f9f8f5',
-    base08: '#f92672',
-    base09: '#fd971f',
-    base0A: '#f4bf75',
-    base0B: '#a6e22e',
-    base0C: '#a1efe4',
-    base0D: '#66d9ef',
-    base0E: '#ae81ff',
-    base0F: '#cc6633'
-  };
-
   if (props.document) {
     const document = props.document;
     const data = document.data;
@@ -102,8 +81,8 @@ export const DocumentTreeView = (props) => {
                 <Alert.Heading>
                   🔍 Looks like we found something...
                 </Alert.Heading>
-                We detected some fields that may potentially reveal some sensitive information if you were to share this OpenCert file publicly.
-                Your OpenCert file is still valid even though certain fields have been filtered. If you want to know how it works,&nbsp;
+                We detected some fields that may potentially reveal sensitive information if you were to share this OpenAttestation file publicly.
+                Your OpenAttestation file is still valid even though certain fields have been filtered. If you want to know how it works,&nbsp;
                 <a href="https://docs.opencerts.io/v1/appendix_data_obfuscation.html" target="_blank">check the documentation here</a>.
               </Alert>
 
@@ -111,7 +90,7 @@ export const DocumentTreeView = (props) => {
                 data={data}
                 fields={detectedFields}
                 values={detectedValues} />
-              <Button onClick={download} className="mt-2" variant="success">Redact and download</Button>
+              <Button onClick={download} className="mt-2" variant="success">Redact</Button>
             </Card.Body>
           </Card>
         )
@@ -125,8 +104,8 @@ export const DocumentTreeView = (props) => {
                 <Alert.Heading>
                   ✅ Looks good!
                 </Alert.Heading>
-                It seems like your OpenCert file doesn't contain any potentially sensitive information.
-                You might still want to review your OpenCert contents below though.
+                It seems like your OpenAttestation file doesn't contain any potentially sensitive information.
+                You might still want to review your OpenAttestation contents below though.
               </Alert>
             </Card.Body>
           </Card>
@@ -138,7 +117,7 @@ export const DocumentTreeView = (props) => {
       <>
         <DisplayRecommendations></DisplayRecommendations>
         <Card>
-          <Card.Header>OpenCerts Viewer</Card.Header>
+          <Card.Header>OpenAttestation Document Viewer</Card.Header>
           <Card.Body>
             <ReactJson
               src={data}
@@ -152,7 +131,7 @@ export const DocumentTreeView = (props) => {
   else {
     return (
       <Card>
-        <Card.Header>OpenCerts Viewer</Card.Header>
+        <Card.Header>OpenAttestation Document Viewer</Card.Header>
         <Card.Body>
           <Card.Text>
             No document found.

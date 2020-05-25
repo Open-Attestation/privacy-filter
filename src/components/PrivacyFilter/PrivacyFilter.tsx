@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { DocumentTreeView } from '../DocumentTreeView';
 
 
-export const OpenCertPrivacyFilter = () => {
+export const PrivacyFilter = () => {
   const [json, setJson] = useState()
   const [fileName, setFileName] = useState()
 
@@ -66,17 +66,13 @@ export const OpenCertPrivacyFilter = () => {
     ...(isDragActive ? activeStyle : {}),
     ...(isDragAccept ? acceptStyle : {}),
     ...(isDragReject ? rejectStyle : {})
-  }), [
-    isDragActive,
-    isDragReject,
-    isDragAccept
-  ]);
+  }), [baseStyle, isDragActive, activeStyle, isDragAccept, acceptStyle, isDragReject, rejectStyle]);
 
   return (
     <>
       <div {...getRootProps({style})} className="mb-4 p-5">
         <input {...getInputProps()} />
-        Drag and drop your .opencert file here, or click to select the file.
+        Drag and drop any OpenAttestation file here, or click to select the file.
       </div>
 
       <DocumentTreeView document={json} fileName={fileName} />
