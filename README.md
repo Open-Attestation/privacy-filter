@@ -1,6 +1,6 @@
-# OpenCerts Privacy Filter
+# OpenAttestation Privacy Filter
 
-![Coveralls](https://s3.amazonaws.com/assets.coveralls.io/badges/coveralls_unknown.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/169c67ac-f179-45a7-ab9f-d727e2d48f27/deploy-status)](https://app.netlify.com/sites/oa-privacy-filter/deploys)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

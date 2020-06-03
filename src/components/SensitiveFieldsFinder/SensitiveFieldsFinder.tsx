@@ -1,3 +1,1 @@
-export const SensitiveFieldsFinder = () => {
-
-}
+export const SensitiveFieldsFinder = () => {};

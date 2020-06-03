@@ -1,1 +1,1 @@
-export { PrivacyFilter } from './PrivacyFilter';
+export { PrivacyFilter } from "./PrivacyFilter";
