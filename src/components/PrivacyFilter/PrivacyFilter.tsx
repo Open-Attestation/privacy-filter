@@ -2,7 +2,6 @@ import { WrappedDocument } from "@govtechsg/open-attestation";
 import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { DocumentViewer } from "../DocumentViewer";
-import { RecommendationsTable } from "../RecommendationsTable";
 
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
@@ -12,7 +11,6 @@ export const PrivacyFilter: React.FunctionComponent = () => {
     display: "flex",
     flexDirection: "row",
     padding: "12px 20px",
-    position: "absolute",
     background: "#459EDB",
     borderRadius: "4px",
     color: "white",
@@ -75,15 +73,21 @@ export const PrivacyFilter: React.FunctionComponent = () => {
   return (
     // TODO: Change this to follow tradetrust.io's dropzone
     <>
-      <div {...getRootProps({ style })} className="mb-4 p-5">
-        <input {...getInputProps()} />
-        Drag and drop any OpenAttestation file here or
-        <div className="row">
-          <div style={selectFilesButton}>Select file</div>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="col-span-1">
+          <div {...getRootProps({ style })} className="flex flex-col">
+            <input {...getInputProps()} />
+            <div className="text-gray-700 text-center px-4 py-2 m-4">Drag and drop any OpenAttestation file here</div>
+            <div className="text-gray-700 text-center">or</div>
+            <div className="text-gray-700 text-center m-4">
+              <div style={selectFilesButton}>Select file</div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <DocumentViewer document={document} fileName={fileName} />
+      <div className="grid grid-cols-12 gap-2">
+        <DocumentViewer document={document} fileName={fileName} />
+      </div>
     </>
   );
 };

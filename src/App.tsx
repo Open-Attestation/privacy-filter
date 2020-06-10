@@ -7,8 +7,8 @@ export const App: React.FunctionComponent = () => {
   return (
     <div className="App">
       <div className="container mx-auto px-4">
-        <div className="grid grid-flow-col sm:grid-flow-row md:grid-flow-col-dense lg:grid-flow-row-dense xl:grid-flow-col">
-          <div>
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-8">
             <h1>
               <a href="https://openattestation.com" target="_blank" rel="noopener noreferrer">
                 📜 OpenAttestation
@@ -20,8 +20,8 @@ export const App: React.FunctionComponent = () => {
               sensitive information, so that you can ⬛ redact them before sharing with others.
             </p>
           </div>
-          <div>
-            <img src={document} />
+          <div className="col-span-4">
+            <img className="object-contain h-48 w-full" src={document} />
           </div>
         </div>
         <PrivacyFilter />

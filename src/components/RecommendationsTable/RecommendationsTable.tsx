@@ -1,6 +1,5 @@
 import _ from "lodash";
 import React from "react";
-import Table from "react-bootstrap/Table";
 
 interface RecommendationsTableProps {
   fields?: string[];
@@ -11,7 +10,7 @@ export const RecommendationsTable: React.FunctionComponent<RecommendationsTableP
   const list = _.zip(props.fields, props.values);
 
   return (
-    <Table striped bordered hover size="sm">
+    <table>
       <thead>
         <tr>
           <th>Data Field</th>
@@ -30,6 +29,6 @@ export const RecommendationsTable: React.FunctionComponent<RecommendationsTableP
           );
         })}
       </tbody>
-    </Table>
+    </table>
   );
 };

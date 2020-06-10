@@ -1,11 +1,6 @@
 import { obfuscateDocument, WrappedDocument } from "@govtechsg/open-attestation";
 import { saveAs } from "file-saver";
 import React from "react";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import ReactJson from "react-json-view";
-import { RecommendationsTable } from "../RecommendationsTable";
 import { sensitiveFieldsFinder } from "../SensitiveFieldsFinder";
 
 interface DocumentViewerProps {
@@ -81,13 +76,6 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
   //   //   </>
   //   // );
   // } else {
-  return (
-    <Card>
-      <Card.Header>OpenAttestation Document Viewer</Card.Header>
-      <Card.Body>
-        <Card.Text>No document found.</Card.Text>
-      </Card.Body>
-    </Card>
-  );
+  return <div>No document found.</div>;
   // }
 };
