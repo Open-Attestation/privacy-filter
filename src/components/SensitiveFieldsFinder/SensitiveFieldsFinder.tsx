@@ -17,6 +17,7 @@ export const sensitiveFieldsFinder: any = (document: WrappedDocument) => {
     // if (value && typeof value === "object") {
     //   return search(value); // Recursively search if property contains sub-properties
     // }
+    console.log(field);
     if (field in recipient) {
       fields.push(field);
       values.push(value);
