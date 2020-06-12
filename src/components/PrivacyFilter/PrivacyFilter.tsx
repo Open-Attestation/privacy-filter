@@ -85,7 +85,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-2">
+      <div className="grid grid-cols-1 gap-2">
         <DocumentViewer document={document} fileName={fileName} />
       </div>
     </>

@@ -8,9 +8,24 @@ interface DocumentViewerProps {
   fileName?: string;
 }
 
+const deepMap = (value: any, path: string): object[] => {
+  if (Array.isArray(value)) {
+    return value.flatMap((v, index) => deepMap(v, `${path}[${index}]`));
+  }
+  // Since null values are allowed but typeof null === "object", the "&& value" is used to skip this
+  if (typeof value === "object" && value) {
+    return Object.keys(value).flatMap((key) => deepMap(value[key], path ? `${path}.${key}` : key));
+  }
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || value === null) {
+    return [{ value: value, path: path }];
+  }
+  throw new Error(`Unexpected value '${value}' in '${path}'`);
+};
+
 export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document, fileName }) => {
   if (document) {
     const data = document.data;
+    console.log(deepMap(document.data, ""));
     const sensitiveFields = sensitiveFieldsFinder(data);
     console.log(sensitiveFields);
 
