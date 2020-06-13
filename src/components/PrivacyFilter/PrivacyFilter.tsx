@@ -1,7 +1,103 @@
 import { WrappedDocument } from "@govtechsg/open-attestation";
+import { includes, mapValues, map, identity } from "lodash";
 import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import isUUID from "validator/lib/isUUID";
 import { DocumentViewer } from "../DocumentViewer";
+import { RecommendationsDisplay } from "../RecommendationsDisplay";
+
+export interface Data {
+  path?: string;
+  value?: string;
+}
+
+export const flatten = (value: any, path: string): Data[] => {
+  if (Array.isArray(value)) {
+    return value.flatMap((v, index) => flatten(v, `${path}[${index}]`));
+  }
+  // Since null values are allowed but typeof null === "object", the "&& value" is used to skip this
+  if (typeof value === "object" && value) {
+    return Object.keys(value).flatMap((key) => flatten(value[key], path ? `${path}.${key}` : key));
+  }
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || value === null) {
+    return [{ path: path, value: value }];
+  }
+  throw new Error(`Unexpected value '${value}' in '${path}'`);
+};
+
+const UUIDV4_LENGTH = 37;
+const PRIMITIVE_TYPES = ["string", "number", "boolean", "undefined"];
+
+/* eslint-disable no-use-before-define */
+/**
+ * Curried function that takes (iteratee)(value),
+ * if value is a collection then recurse into it
+ * otherwise apply `iteratee` on the primitive value
+ */
+const recursivelyApply = (iteratee: (arg: any) => any) => (value: any) => {
+  if (includes(PRIMITIVE_TYPES, typeof value) || value === null) {
+    return iteratee(value);
+  }
+  return deepMap(value, iteratee); // eslint-disable-line @typescript-eslint/no-use-before-define
+};
+
+/**
+ * Applies `iteratee` to all fields in objects, goes into arrays as well.
+ * Refer to test for example
+ */
+export const deepMap = (collection: any, iteratee: (arg: any) => any = identity): any => {
+  if (collection instanceof Array) {
+    return map(collection, recursivelyApply(iteratee));
+  }
+  if (typeof collection === "object") {
+    return mapValues(collection, recursivelyApply(iteratee));
+  }
+  return collection;
+};
+
+const startsWithUuidV4 = (input: any) => {
+  if (input && typeof input === "string") {
+    const elements = input.split(":");
+    return isUUID(elements[0], 4);
+  }
+  return false;
+};
+/**
+ * Value salted string in the format "salt:type:value", example: "ee7f3323-1634-4dea-8c12-f0bb83aff874:number:5"
+ * Returns an appropriately typed value when given a salted string with type annotation
+ */
+export function unsalt(value: string) {
+  if (startsWithUuidV4(value)) {
+    const untypedValue = value.substring(UUIDV4_LENGTH).trim();
+    return typedStringToPrimitive(untypedValue);
+  }
+  return value;
+}
+
+export const unsaltData = (data: any) => deepMap(data, unsalt);
+
+/**
+ * Returns an appropriately typed value given a string with type annotations, e.g: "number:5"
+ */
+export function typedStringToPrimitive(input: string) {
+  const [type, ...valueArray] = input.split(":");
+  const value = valueArray.join(":"); // just in case there are colons in the value
+
+  switch (type) {
+    case "number":
+      return Number(value);
+    case "string":
+      return String(value);
+    case "boolean":
+      return value === "true";
+    case "null":
+      return null;
+    case "undefined":
+      return undefined;
+    default:
+      throw new Error(`Parsing error, type annotation not found in string: ${input}`);
+  }
+}
 
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
@@ -15,7 +111,6 @@ export const PrivacyFilter: React.FunctionComponent = () => {
     borderRadius: "4px",
     color: "white",
   } as React.CSSProperties;
-
   const baseStyle = {
     flex: 1,
     display: "flex",
@@ -84,9 +179,12 @@ export const PrivacyFilter: React.FunctionComponent = () => {
             </div>
           </div>
         </div>
+        <div className="col-span-1">
+          <div>Stuff here</div>
+        </div>
       </div>
       <div className="grid grid-cols-1 gap-2">
-        <DocumentViewer document={document} fileName={fileName} />
+        <DocumentViewer document={unsaltData(document)} fileName={fileName} />
       </div>
     </>
   );

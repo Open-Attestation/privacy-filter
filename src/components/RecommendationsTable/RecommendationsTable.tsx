@@ -1,34 +1,38 @@
-import _ from "lodash";
 import React from "react";
+import { Data } from "../PrivacyFilter";
 
 interface RecommendationsTableProps {
-  fields?: string[];
-  values?: string[];
+  data?: Data[];
 }
 
-export const RecommendationsTable: React.FunctionComponent<RecommendationsTableProps> = (props) => {
-  const list = _.zip(props.fields, props.values);
-
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>Data Field</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((row) => {
-          return (
-            <tr key={row[0]}>
-              <td>{row[0]}</td>
-              <td>
-                <code>{row[1]?.split(":")[2]}</code>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
+export const RecommendationsTable: React.FunctionComponent<RecommendationsTableProps> = ({ data }) => {
+  if (data) {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Value</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row) => {
+            return (
+              <tr key={row.path}>
+                <td>
+                  <pre>{row.path}</pre>
+                </td>
+                <td>
+                  <code>{row.value}</code>
+                </td>
+                <td>Remove button</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  }
+  return <></>;
 };

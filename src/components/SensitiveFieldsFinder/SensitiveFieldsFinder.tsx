@@ -1,9 +1,17 @@
-import { WrappedDocument } from "@govtechsg/open-attestation";
+import { Data } from "../PrivacyFilter";
 
-export const sensitiveFieldsFinder: any = (document: WrappedDocument) => {
-  const recipient = ["nric", "email", "email_address", "phone", "phone_number"];
-  const fields = [] as string[];
-  const values = [] as string[];
+export const sensitiveFieldsFinder: any = (document: Data[]) => {
+  const paths = ["nric", "email", "email_address", "phone", "phone_number"];
+  const sensitiveFields = [] as Data[];
+
+  document.forEach((data) => {
+    // Applying our sensitive fields checker rules here
+    paths.forEach((path) => {
+      if (data.path?.includes(path)) {
+        sensitiveFields.push(data);
+      }
+    });
+  });
 
   // Might need to rework this some day to search the entire object
   // sensitiveFields.forEach(function (field: object) {
@@ -23,5 +31,5 @@ export const sensitiveFieldsFinder: any = (document: WrappedDocument) => {
   //     values.push(value);
   //   }
   // });
-  return { fields, values };
+  return sensitiveFields;
 };
