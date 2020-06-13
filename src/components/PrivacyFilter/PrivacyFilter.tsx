@@ -180,11 +180,11 @@ export const PrivacyFilter: React.FunctionComponent = () => {
           </div>
         </div>
         <div className="col-span-1">
-          <div>Stuff here</div>
+          <RecommendationsDisplay document={unsaltData(document)} fileName={fileName} />
         </div>
       </div>
       <div className="grid grid-cols-1 gap-2">
-        <DocumentViewer document={unsaltData(document)} fileName={fileName} />
+        <DocumentViewer document={unsaltData(document)} />
       </div>
     </>
   );

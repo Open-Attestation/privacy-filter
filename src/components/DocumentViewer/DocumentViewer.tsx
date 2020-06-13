@@ -1,32 +1,16 @@
-import { obfuscateDocument, WrappedDocument } from "@govtechsg/open-attestation";
-import { saveAs } from "file-saver";
+import { WrappedDocument } from "@govtechsg/open-attestation";
 import React from "react";
 import { flatten } from "../PrivacyFilter";
-import { RecommendationsDisplay } from "../RecommendationsDisplay";
-import { sensitiveFieldsFinder } from "../SensitiveFieldsFinder";
 
 interface DocumentViewerProps {
   document?: WrappedDocument;
-  fileName?: string;
 }
 
-export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document, fileName }) => {
+export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document }) => {
   if (document) {
     const data = flatten(document.data, "");
-    const sensitiveFields = sensitiveFieldsFinder(data);
-    console.log(sensitiveFields);
-
-    const download = () => {
-      const redacted = obfuscateDocument(document, sensitiveFields);
-      const blob = new Blob([JSON.stringify(redacted, null, 2)], {
-        type: "application/json",
-      });
-      saveAs(blob, fileName);
-    };
-
     return (
       <>
-        <RecommendationsDisplay data={sensitiveFields} />
         <table>
           <thead>
             <tr>
