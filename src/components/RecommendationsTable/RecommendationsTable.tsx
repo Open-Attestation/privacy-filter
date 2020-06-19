@@ -1,5 +1,5 @@
 import React from "react";
-import {Data} from '../shared';
+import { Data } from "../shared";
 
 interface RecommendationsTableProps {
   data?: Data[];
