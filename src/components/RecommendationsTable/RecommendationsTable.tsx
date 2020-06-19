@@ -1,5 +1,5 @@
 import React from "react";
-import { Data } from "../PrivacyFilter";
+import {Data} from '../shared';
 
 interface RecommendationsTableProps {
   data?: Data[];

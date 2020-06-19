@@ -11,17 +11,28 @@ export const App: React.FunctionComponent = () => {
           <div className="col-span-8">
             <h1>
               <a href="https://openattestation.com" target="_blank" rel="noopener noreferrer">
-                📜 OpenAttestation
+                <span role="img" aria-label="document">
+                  📜
+                </span>{" "}
+                OpenAttestation
               </a>{" "}
               Privacy Filter
             </h1>
             <p>
-              This tool helps you to 🔍 locate potential fields in your OpenAttestation document that may reveal
-              sensitive information, so that you can ⬛ redact them before sharing with others.
+              This tool helps you to{" "}
+              <span role="img" aria-label="magnifying glass">
+                🔍
+              </span>{" "}
+              locate potential fields in your OpenAttestation document that may reveal sensitive information, so that
+              you can{" "}
+              <span role="img" aria-label="censor">
+                ⬛
+              </span>{" "}
+              redact them before sharing with others.
             </p>
           </div>
           <div className="col-span-4">
-            <img className="object-contain h-48 w-full" src={document} />
+            <img className="object-contain h-48 w-full" src={document} alt="" />
           </div>
         </div>
         <PrivacyFilter />

@@ -1,38 +1,26 @@
-import { WrappedDocument } from "@govtechsg/open-attestation";
 import React from "react";
-import { Data } from "../PrivacyFilter";
 import { RecommendationsTable } from "../RecommendationsTable";
 import { sensitiveFieldsFinder } from "../SensitiveFieldsFinder";
+import { flatten } from "../shared";
 
 interface RecommendationsDisplayProps {
-  document?: WrappedDocument;
+  document?: any;
   fileName?: string;
 }
-
-const flatten = (value: any, path: string): Data[] => {
-  if (Array.isArray(value)) {
-    return value.flatMap((v, index) => flatten(v, `${path}[${index}]`));
-  }
-  // Since null values are allowed but typeof null === "object", the "&& value" is used to skip this
-  if (typeof value === "object" && value) {
-    return Object.keys(value).flatMap((key) => flatten(value[key], path ? `${path}.${key}` : key));
-  }
-  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || value === null) {
-    return [{ path: path, value: value }];
-  }
-  throw new Error(`Unexpected value '${value}' in '${path}'`);
-};
 
 export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisplayProps> = ({ document }) => {
   if (!document) {
     return (
       <>
-        ✅ Looks good! It seems like your OpenAttestation file doesn't contain any potentially sensitive information.
-        You might still want to review your OpenAttestation contents below though.
+        <span role="img" aria-label="valid">
+          ✅
+        </span>{" "}
+        Looks good! It seems like your OpenAttestation file doesn't contain any potentially sensitive information. You
+        might still want to review your OpenAttestation contents below though.
       </>
     );
   } else {
-    const data = flatten(document.data, "");
+    const data = flatten(document, "");
     const sensitiveFields = sensitiveFieldsFinder(data);
     console.log(sensitiveFields);
 
@@ -45,8 +33,12 @@ export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisp
     // };
     return (
       <div>
-        Recommendations 🔍 Looks like we found something... We detected some fields that may potentially reveal
-        sensitive information if you were to share this OpenAttestation file publicly.
+        Recommendations{" "}
+        <span role="img" aria-label="magnifying glass">
+          🔍
+        </span>{" "}
+        Looks like we found something... We detected some fields that may potentially reveal sensitive information if
+        you were to share this OpenAttestation file publicly.
         <RecommendationsTable data={sensitiveFields} />
       </div>
     );

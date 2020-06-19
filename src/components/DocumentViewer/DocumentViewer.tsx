@@ -1,14 +1,13 @@
-import { WrappedDocument } from "@govtechsg/open-attestation";
 import React from "react";
-import { flatten } from "../PrivacyFilter";
+import { flatten } from "../shared";
 
 interface DocumentViewerProps {
-  document?: WrappedDocument;
+  document?: any;
 }
 
 export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document }) => {
   if (document) {
-    const data = flatten(document.data, "");
+    const data = flatten(document, "");
     return (
       <>
         <table>

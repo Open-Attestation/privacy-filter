@@ -4,11 +4,6 @@ import { useDropzone } from "react-dropzone";
 import { DocumentViewer } from "../DocumentViewer";
 import { RecommendationsDisplay } from "../RecommendationsDisplay";
 
-export interface Data {
-  path?: string;
-  value?: string;
-}
-
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
   const [fileName, setFileName] = useState<string>();

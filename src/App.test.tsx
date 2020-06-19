@@ -6,7 +6,6 @@ describe("app", () => {
   it("renders learn react link", () => {
     expect.assertions(1);
     const { getByText } = render(<App />);
-    const linkElement = getByText(/learn react/i);
-    expect(linkElement).toBeInTheDocument();
+    expect(getByText(/Privacy Filter/i)).toBeInTheDocument();
   });
 });

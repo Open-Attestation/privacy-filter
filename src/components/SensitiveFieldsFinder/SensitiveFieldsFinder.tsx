@@ -1,4 +1,4 @@
-import { Data } from "../PrivacyFilter";
+import { Data } from "../shared";
 
 export const sensitiveFieldsFinder: any = (document: Data[]) => {
   const paths = ["nric", "email", "email_address", "phone", "phone_number"];
