@@ -72,8 +72,8 @@ export const PrivacyFilter: React.FunctionComponent = () => {
     [baseStyle, isDragActive, activeStyle, isDragAccept, acceptStyle, isDragReject, rejectStyle]
   );
 
+  // TODO: Change this to follow tradetrust.io's dropzone
   return (
-    // TODO: Change this to follow tradetrust.io's dropzone
     <>
       <div className="grid grid-cols-2 gap-2">
         <div className="col-span-1">

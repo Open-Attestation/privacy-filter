@@ -1,4 +1,3 @@
-// import { css } from "emotion";
 import React from "react";
 import { PrivacyFilter } from "./components/PrivacyFilter";
 import document from "./document.svg";
