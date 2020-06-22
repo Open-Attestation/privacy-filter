@@ -1,1 +1,1 @@
-export { SensitiveFieldsFinder } from './SensitiveFieldsFinder';
+export * from "./SensitiveFieldsFinder";
