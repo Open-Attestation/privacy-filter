@@ -1,7 +1,7 @@
 {
-  "name": "oa-privacy-filter",
+  "name": "privacy-filter",
   "version": "0.1.0",
-  "homepage": "https://oa-privacy-filter.netlify.app",
+  "homepage": "https://privacy-filter.netlify.app",
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.28",
