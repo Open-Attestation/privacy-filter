@@ -12,8 +12,8 @@ export const RecommendationsTable: React.FunctionComponent<RecommendationsTableP
         <thead>
           <tr>
             <th className="px-4 py-2">Path</th>
-            <th>Value</th>
-            <th>Remove</th>
+            <th className="px-4 py-2">Value</th>
+            <th className="px-4 py-2">Remove</th>
           </tr>
         </thead>
         <tbody>

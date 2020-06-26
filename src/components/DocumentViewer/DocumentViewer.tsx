@@ -6,27 +6,29 @@ interface DocumentViewerProps {
 }
 
 export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document }) => {
-  if (document) {
+  if (Object.keys(document).length) {
     const data = flatten(document, "");
     return (
       <>
-        <table>
+        <table className="table-fixed">
           <thead>
             <tr>
-              <th>Path</th>
-              <th>Value</th>
-              <th>Remove</th>
+              <th className="px-4 py-2">Path</th>
+              <th className="px-4 py-2">Value</th>
+              <th className="px-4 py-2">Remove</th>
             </tr>
           </thead>
           <tbody>
             {data.map((row) => {
               return (
                 <tr key={row.path}>
-                  <td>{row.path}</td>
-                  <td>
+                  <td className="border px-4 py-2">
+                    <pre>{row.path}</pre>
+                  </td>
+                  <td className="border px-4 py-2">
                     <code>{row.value}</code>
                   </td>
-                  <td>Remove button</td>
+                  <td className="border px-4 py-2">Remove button</td>
                 </tr>
               );
             })}
