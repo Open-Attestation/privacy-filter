@@ -8,10 +8,10 @@ interface RecommendationsTableProps {
 export const RecommendationsTable: React.FunctionComponent<RecommendationsTableProps> = ({ data }) => {
   if (data) {
     return (
-      <table>
+      <table className="table-fixed">
         <thead>
           <tr>
-            <th>Path</th>
+            <th className="px-4 py-2">Path</th>
             <th>Value</th>
             <th>Remove</th>
           </tr>
@@ -20,13 +20,13 @@ export const RecommendationsTable: React.FunctionComponent<RecommendationsTableP
           {data.map((row) => {
             return (
               <tr key={row.path}>
-                <td>
+                <td className="border px-4 py-2">
                   <pre>{row.path}</pre>
                 </td>
-                <td>
+                <td className="border px-4 py-2">
                   <code>{row.value}</code>
                 </td>
-                <td>Remove button</td>
+                <td className="border px-4 py-2">Remove button</td>
               </tr>
             );
           })}

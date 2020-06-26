@@ -75,8 +75,8 @@ export const PrivacyFilter: React.FunctionComponent = () => {
   // TODO: Change this to follow tradetrust.io's dropzone
   return (
     <>
-      <div className="flex">
-        <div className="flex-1 p-2">
+      <div className="grid grid-cols-2 gap-2">
+        <div className="col-span-2 sm:col-span-1">
           <div {...getRootProps({ style })} className="flex flex-col">
             <input {...getInputProps()} />
             <div className="text-gray-700 text-center px-4 py-2 m-4">Drag and drop any OpenAttestation file here</div>
@@ -86,7 +86,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 p-2">
+        <div className="col-span-2 sm:col-span-1">
           <RecommendationsDisplay document={rawDocument} fileName={fileName} />
         </div>
       </div>
