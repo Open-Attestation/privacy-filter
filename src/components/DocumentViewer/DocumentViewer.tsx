@@ -6,18 +6,6 @@ interface DocumentViewerProps {
 }
 
 export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document }) => {
-  // const textEllipsis = {
-  //   whiteSpace: "nowrap",
-  //   textOverflow: "ellipsis",
-  //   overflow: "hidden",
-  //   maxWidth: "100px",
-  // } as React.CSSProperties;
-
-  const tableFixed = {
-    tableLayout: "fixed",
-    width: "100%",
-  } as React.CSSProperties;
-
   if (Object.keys(document).length) {
     const data = flatten(document, "");
     return (

@@ -6,7 +6,6 @@ interface RecommendationsTableProps {
 }
 
 export const RecommendationsTable: React.FunctionComponent<RecommendationsTableProps> = ({ data }) => {
-  // {row.path?.replace(/\./g, " > ")}
   if (data) {
     return (
       <div>
