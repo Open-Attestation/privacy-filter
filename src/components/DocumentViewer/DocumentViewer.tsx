@@ -24,25 +24,25 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
       <>
         <div className="bg-gray-300 font-bold rounded-t px-4 py-2">Document Viewer</div>
         <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3 overflow-auto">
-          <table style={tableFixed}>
+          <table className="table-fixed w-full">
             <thead>
               <tr>
-                <th className="px-4 py-2">Path</th>
-                <th className="px-4 py-2">Value</th>
-                <th className="px-4 py-2">Remove</th>
+                <th className="md:w-3/12 px-2 py-2">Path</th>
+                <th className="md:w-7/12 px-2 py-2">Value</th>
+                <th className="md:w-2/12 px-2 py-2" />
               </tr>
             </thead>
             <tbody>
               {data.map((row) => {
                 return (
                   <tr key={row.path}>
-                    <td className="border px-4 py-2">
+                    <td className="border px-2 py-2">
                       <span className="break-words">{row.path}</span>
                     </td>
-                    <td className="border px-4 py-2 break-words">
+                    <td className="border px-2 py-2">
                       <pre className="truncate">{row.value}</pre>
                     </td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-2 py-2">
                       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Redact
                       </button>
