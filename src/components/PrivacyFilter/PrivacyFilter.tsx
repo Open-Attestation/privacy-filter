@@ -75,7 +75,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
   // TODO: Change this to follow tradetrust.io's dropzone
   return (
     <>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="col-span-2 sm:col-span-1">
           <div {...getRootProps({ style })} className="flex flex-col">
             <input {...getInputProps()} />
@@ -87,16 +87,14 @@ export const PrivacyFilter: React.FunctionComponent = () => {
           </div>
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <div role="alert">
-            <div className="bg-gray-200 font-bold rounded-t px-4 py-2">Recommendations</div>
-            <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3">
-              <RecommendationsDisplay document={rawDocument} fileName={fileName} />
-            </div>
+          <div className="bg-gray-300 font-bold rounded-t px-4 py-2">Recommendations</div>
+          <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3">
+            <RecommendationsDisplay document={rawDocument} fileName={fileName} />
           </div>
         </div>
       </div>
       <div className="flex">
-        <div className="flex-1 p-2">
+        <div className="flex-1">
           <DocumentViewer document={rawDocument} />
         </div>
       </div>

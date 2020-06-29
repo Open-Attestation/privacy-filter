@@ -10,30 +10,34 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
     const data = flatten(document, "");
     return (
       <>
-        <table className="table-fixed">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Path</th>
-              <th className="px-4 py-2">Value</th>
-              <th className="px-4 py-2">Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row) => {
-              return (
-                <tr key={row.path}>
-                  <td className="border px-4 py-2">
-                    <pre>{row.path}</pre>
-                  </td>
-                  <td className="border px-4 py-2">
-                    <code>{row.value}</code>
-                  </td>
-                  <td className="border px-4 py-2">Remove button</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="bg-gray-300 font-bold rounded-t px-4 py-2">Document Viewer</div>
+        <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3">
+
+          <table className="table-fixed">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">Path</th>
+                <th className="px-4 py-2">Value</th>
+                <th className="px-4 py-2">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((row) => {
+                return (
+                  <tr key={row.path}>
+                    <td className="border px-4 py-2">
+                      <pre>{row.path}</pre>
+                    </td>
+                    <td className="border px-4 py-2">
+                      <code>{row.value}</code>
+                    </td>
+                    <td className="border px-4 py-2">Remove button</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </>
     );
   }
