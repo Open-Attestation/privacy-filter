@@ -10,14 +10,6 @@ export const PrivacyFilter: React.FunctionComponent = () => {
 
   const rawDocument = document ? getData(document) : {};
 
-  const selectFilesButton = {
-    display: "flex",
-    flexDirection: "row",
-    padding: "12px 20px",
-    background: "#459EDB",
-    borderRadius: "4px",
-    color: "white",
-  } as React.CSSProperties;
   const baseStyle = {
     flex: 1,
     display: "flex",
@@ -75,25 +67,27 @@ export const PrivacyFilter: React.FunctionComponent = () => {
   // TODO: Change this to follow tradetrust.io's dropzone
   return (
     <>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="col-span-2 sm:col-span-1">
+      <div className="grid grid-cols-2 gap-4 mb-3">
+        <div className="col-span-2 lg:col-span-1">
           <div {...getRootProps({ style })} className="flex flex-col">
             <input {...getInputProps()} />
             <div className="text-gray-700 text-center px-4 py-2 m-4">Drag and drop any OpenAttestation file here</div>
             <div className="text-gray-700 text-center">or</div>
             <div className="text-gray-700 text-center m-4">
-              <div style={selectFilesButton}>Select file</div>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Select file
+              </button>
             </div>
           </div>
         </div>
-        <div className="col-span-2 sm:col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <div className="bg-gray-300 font-bold rounded-t px-4 py-2">Recommendations</div>
           <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3">
             <RecommendationsDisplay document={rawDocument} fileName={fileName} />
           </div>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex-initial">
         <div className="flex-1">
           <DocumentViewer document={rawDocument} />
         </div>

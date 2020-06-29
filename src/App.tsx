@@ -31,7 +31,7 @@ export const App: React.FunctionComponent = () => {
             </p>
           </div>
           <div className="col-span-4">
-            <img className="object-contain h-48 w-full" src={document} alt="" />
+            <img className="hidden md:block object-contain h-48 w-full" src={document} alt="" />
           </div>
         </div>
         <PrivacyFilter />

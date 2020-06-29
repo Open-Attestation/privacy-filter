@@ -13,7 +13,7 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
         <div className="bg-gray-300 font-bold rounded-t px-4 py-2">Document Viewer</div>
         <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3">
 
-          <table className="table-fixed">
+          <table className="table-auto">
             <thead>
               <tr>
                 <th className="px-4 py-2">Path</th>
@@ -25,11 +25,9 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
               {data.map((row) => {
                 return (
                   <tr key={row.path}>
-                    <td className="border px-4 py-2">
-                      <pre>{row.path}</pre>
-                    </td>
-                    <td className="border px-4 py-2">
-                      <code>{row.value}</code>
+                    <td className="border px-4 py-2">{row.path?.replace(/\./g, " > ")}</td>
+                    <td className="border px-4 py-2 break-words">
+                      <p className="break-words">{row.value}</p>
                     </td>
                     <td className="border px-4 py-2">Remove button</td>
                   </tr>
