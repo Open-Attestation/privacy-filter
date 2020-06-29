@@ -14,7 +14,6 @@ export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisp
   } else {
     const data = flatten(document, "");
     const sensitiveFields = sensitiveFieldsFinder(data);
-    console.log(sensitiveFields);
 
     // const download = () => {
     //   const redacted = obfuscateDocument(document, sensitiveFields);
