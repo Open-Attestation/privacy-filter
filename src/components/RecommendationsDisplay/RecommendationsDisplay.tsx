@@ -1,29 +1,14 @@
 import React from "react";
-import { RecommendationsTable } from "../RecommendationsTable";
-import { sensitiveFieldsFinder } from "../SensitiveFieldsFinder";
-import { flatten } from "../shared";
 
 interface RecommendationsDisplayProps {
-  document?: any;
-  fileName?: string;
+  hasSensitiveFields?: any;
 }
 
-export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisplayProps> = ({ document }) => {
+export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisplayProps> = ({ hasSensitiveFields }) => {
   if (Object.keys(document).length === 0) {
     return <>No document found.</>;
   } else {
-    const data = flatten(document, "");
-    const sensitiveFields = sensitiveFieldsFinder(data);
-
-    // const download = () => {
-    //   const redacted = obfuscateDocument(document, sensitiveFields);
-    //   const blob = new Blob([JSON.stringify(redacted, null, 2)], {
-    //     type: "application/json",
-    //   });
-    //   saveAs(blob, fileName);
-    // };
-
-    if (sensitiveFields.length) {
+    if (hasSensitiveFields) {
       return (
         <div>
           <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 mb-2" role="alert">
@@ -36,7 +21,6 @@ export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisp
           </div>
           We found some fields below that may contain sensitive information. Redact this data in your OpenAttestation
           file if you would like to keep it private when sharing your OpenAttestation file publicly.
-          <RecommendationsTable data={sensitiveFields} />
         </div>
       );
     } else {

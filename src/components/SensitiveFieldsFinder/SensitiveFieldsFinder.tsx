@@ -1,6 +1,6 @@
 import { Data } from "../shared";
 
-export const sensitiveFieldsFinder: any = (document: Data[]) => {
+export const findAllSensitiveFields: any = (document: Data[]) => {
   const paths = ["nric", "email", "email_address", "phone", "phone_number"];
   const sensitiveFields = [] as Data[];
 
