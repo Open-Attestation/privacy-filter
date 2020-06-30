@@ -59,7 +59,7 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
   if (Object.keys(document).length) {
     const data = flatten(document, "");
     const sensitiveFields = findAllSensitiveFields(data);
-    const hasSensitiveFields = sensitiveFields.length ? true : false;
+    const hasSensitiveFields = sensitiveFields.length > 0;
 
     return (
       <>
@@ -80,6 +80,8 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
                 //   toggleChoice(row.path as string);
                 // }
 
+                // <mark className="line-through">{row.path}</mark>
+
                 const button = redactionList.includes(row.path as string) ? (
                   <UndoRedactButton path={row.path as string} />
                 ) : (
@@ -89,12 +91,10 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
                 return (
                   <tr key={row.path}>
                     <td className="border px-2 py-2">
-                      <span className="break-words">
-                        <mark className="line-through">{row.path}</mark>
-                      </span>
+                      <p className="break-words">{row.path}</p>
                     </td>
                     <td className="border px-2 py-2">
-                      <mark className="line-through">{row.value}</mark>
+                      <p className="truncate">{row.value}</p>
                     </td>
                     <td className="border px-2 py-2">{button}</td>
                   </tr>

@@ -9,7 +9,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
 
   const rawDocument = document ? getData(document) : {};
 
-  const baseStyle = {
+  const baseStyle: React.CSSProperties = {
     flex: 1,
     display: "flex",
     flexDirection: "column",
@@ -23,16 +23,16 @@ export const PrivacyFilter: React.FunctionComponent = () => {
     color: "#555555",
     outline: "none",
     transition: "border .24s ease-in-out",
-  } as React.CSSProperties;
-  const activeStyle = {
+  };
+  const activeStyle: React.CSSProperties = {
     borderColor: "#2196f3",
-  } as React.CSSProperties;
-  const acceptStyle = {
+  };
+  const acceptStyle: React.CSSProperties = {
     borderColor: "#00e676",
-  } as React.CSSProperties;
-  const rejectStyle = {
+  };
+  const rejectStyle: React.CSSProperties = {
     borderColor: "#ff1744",
-  } as React.CSSProperties;
+  };
   const onDropAccepted = (files: File[]): void => {
     Array.from(files).forEach((file) => {
       const reader = new FileReader();
