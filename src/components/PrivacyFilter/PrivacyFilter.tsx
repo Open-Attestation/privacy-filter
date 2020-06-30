@@ -2,7 +2,6 @@ import { getData, WrappedDocument } from "@govtechsg/open-attestation";
 import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { DocumentViewer } from "../DocumentViewer";
-import { RecommendationsDisplay } from "../RecommendationsDisplay";
 
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
@@ -81,7 +80,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
           </div>
         </div>
         <div className="col-span-2">
-          <DocumentViewer document={rawDocument} />
+          <DocumentViewer document={rawDocument} fileName={fileName} />
         </div>
       </div>
     </>

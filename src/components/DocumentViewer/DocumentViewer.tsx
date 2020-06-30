@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { RecommendationsDisplay } from "../RecommendationsDisplay";
 import { findAllSensitiveFields } from "../SensitiveFieldsFinder";
 import { flatten } from "../shared";
 
 interface DocumentViewerProps {
   document?: any;
+  fileName?: string;
+}
+
+interface ButtonProps {
+  path: string;
 }
 
 export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document }) => {
@@ -15,6 +20,42 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
   //   });
   //   saveAs(blob, fileName);
   // };
+
+  const [redactionList, setRedactionList] = useState<string[]>([]);
+  const toggleChoice = (path: string): void => {
+    const _redactionList: string[] = [...redactionList];
+    console.log(path);
+
+    const index = _redactionList.indexOf(path, 0);
+    if (index > -1) {
+      _redactionList.splice(index, 1);
+    } else {
+      _redactionList.push(path);
+    }
+    // console.log(_redactionList);
+    setRedactionList(_redactionList);
+    console.log(redactionList);
+  };
+  const RedactButton: React.FunctionComponent<ButtonProps> = ({ path }) => {
+    return (
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={() => toggleChoice(path)}
+      >
+        Redact
+      </button>
+    );
+  };
+  const UndoRedactButton: React.FunctionComponent<ButtonProps> = ({ path }) => {
+    return (
+      <button
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        onClick={() => toggleChoice(path)}
+      >
+        Undo Redact
+      </button>
+    );
+  };
   if (Object.keys(document).length) {
     const data = flatten(document, "");
     const sensitiveFields = findAllSensitiveFields(data);
@@ -35,41 +76,29 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
             </thead>
             <tbody>
               {data.map((row) => {
-                if (sensitiveFields.includes(row)) {
-                  return (
-                    <tr key={row.path}>
-                      <td className="border px-2 py-2">
-                        <span className="break-words">
-                          <mark className="line-through">{row.path}</mark>
-                        </span>
-                      </td>
-                      <td className="border px-2 py-2">
-                        <mark className="line-through">{row.value}</mark>
-                      </td>
-                      <td className="border px-2 py-2">
-                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                          Redacted
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                } else {
-                  return (
-                    <tr key={row.path}>
-                      <td className="border px-2 py-2">
-                        <span className="break-words">{row.path}</span>
-                      </td>
-                      <td className="border px-2 py-2">
-                        <pre className="truncate">{row.value}</pre>
-                      </td>
-                      <td className="border px-2 py-2">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                          Redact
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                }
+                // if (sensitiveFields.includes(row)) {
+                //   toggleChoice(row.path as string);
+                // }
+
+                const button = redactionList.includes(row.path as string) ? (
+                  <UndoRedactButton path={row.path as string} />
+                ) : (
+                  <RedactButton path={row.path as string} />
+                );
+
+                return (
+                  <tr key={row.path}>
+                    <td className="border px-2 py-2">
+                      <span className="break-words">
+                        <mark className="line-through">{row.path}</mark>
+                      </span>
+                    </td>
+                    <td className="border px-2 py-2">
+                      <mark className="line-through">{row.value}</mark>
+                    </td>
+                    <td className="border px-2 py-2">{button}</td>
+                  </tr>
+                );
               })}
             </tbody>
           </table>

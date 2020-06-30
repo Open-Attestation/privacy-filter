@@ -4,7 +4,9 @@ interface RecommendationsDisplayProps {
   hasSensitiveFields?: any;
 }
 
-export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisplayProps> = ({ hasSensitiveFields }) => {
+export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisplayProps> = ({
+  hasSensitiveFields,
+}) => {
   if (Object.keys(document).length === 0) {
     return <>No document found.</>;
   } else {
