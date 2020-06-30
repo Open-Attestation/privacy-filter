@@ -2,7 +2,6 @@ import { getData, WrappedDocument } from "@govtechsg/open-attestation";
 import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { DocumentViewer } from "../DocumentViewer";
-import { RecommendationsDisplay } from "../RecommendationsDisplay";
 
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
@@ -10,15 +9,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
 
   const rawDocument = document ? getData(document) : {};
 
-  const selectFilesButton = {
-    display: "flex",
-    flexDirection: "row",
-    padding: "12px 20px",
-    background: "#459EDB",
-    borderRadius: "4px",
-    color: "white",
-  } as React.CSSProperties;
-  const baseStyle = {
+  const baseStyle: React.CSSProperties = {
     flex: 1,
     display: "flex",
     flexDirection: "column",
@@ -32,14 +23,14 @@ export const PrivacyFilter: React.FunctionComponent = () => {
     color: "#555555",
     outline: "none",
     transition: "border .24s ease-in-out",
-  } as React.CSSProperties;
-  const activeStyle = {
+  };
+  const activeStyle: React.CSSProperties = {
     borderColor: "#2196f3",
   };
-  const acceptStyle = {
+  const acceptStyle: React.CSSProperties = {
     borderColor: "#00e676",
   };
-  const rejectStyle = {
+  const rejectStyle: React.CSSProperties = {
     borderColor: "#ff1744",
   };
   const onDropAccepted = (files: File[]): void => {
@@ -75,23 +66,22 @@ export const PrivacyFilter: React.FunctionComponent = () => {
   // TODO: Change this to follow tradetrust.io's dropzone
   return (
     <>
-      <div className="grid grid-cols-2 gap-2">
-        <div className="col-span-1">
+      <div className="grid grid-cols-2 gap-4 mb-3">
+        <div className="col-span-2">
           <div {...getRootProps({ style })} className="flex flex-col">
             <input {...getInputProps()} />
             <div className="text-gray-700 text-center px-4 py-2 m-4">Drag and drop any OpenAttestation file here</div>
             <div className="text-gray-700 text-center">or</div>
             <div className="text-gray-700 text-center m-4">
-              <div style={selectFilesButton}>Select file</div>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Select file
+              </button>
             </div>
           </div>
         </div>
-        <div className="col-span-1">
-          <RecommendationsDisplay document={rawDocument} fileName={fileName} />
+        <div className="col-span-2">
+          <DocumentViewer document={rawDocument} fileName={fileName} />
         </div>
-      </div>
-      <div className="grid grid-cols-1 gap-2">
-        <DocumentViewer document={rawDocument} />
       </div>
     </>
   );
