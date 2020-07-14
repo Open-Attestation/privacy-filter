@@ -31,8 +31,6 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
     console.log("redactionList:", redactionList);
   });
   const download = (): void => {
-    const verified = getData(document);
-    console.log(document);
     const redacted = obfuscateDocument(document, ["recipient.name"]);
     console.log(redactionList, redacted);
     const blob = new Blob([JSON.stringify(redacted, null, 2)], {
