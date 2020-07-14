@@ -1,4 +1,4 @@
-import { getData, WrappedDocument } from "@govtechsg/open-attestation";
+import { WrappedDocument } from "@govtechsg/open-attestation";
 import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { DocumentViewer } from "../DocumentViewer";
@@ -7,7 +7,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
   const [fileName, setFileName] = useState<string>();
 
-  const rawDocument = document ? getData(document) : {};
+  const rawDocument = document ? document : {};
 
   const baseStyle: React.CSSProperties = {
     flex: 1,

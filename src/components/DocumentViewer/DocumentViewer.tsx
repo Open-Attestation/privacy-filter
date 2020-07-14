@@ -32,7 +32,7 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
   });
   const download = (): void => {
     const verified = getData(document);
-    console.log(verified);
+    console.log(document);
     const redacted = obfuscateDocument(document, ["recipient.name"]);
     console.log(redactionList, redacted);
     const blob = new Blob([JSON.stringify(redacted, null, 2)], {
@@ -53,7 +53,7 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
   const UndoRedactButton: React.FunctionComponent<ButtonProps> = ({ path }) => {
     return (
       <button
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => toggleChoice(path)}
       >
         Undo
@@ -61,7 +61,7 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
     );
   };
   if (Object.keys(document).length) {
-    const data = flatten(document, "");
+    const data = flatten(getData(document), "");
     const sensitiveFields = findAllSensitiveFields(data);
     const hasSensitiveFields = sensitiveFields.length > 0;
 
