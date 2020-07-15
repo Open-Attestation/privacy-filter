@@ -6,6 +6,11 @@ import { DocumentViewer } from "../DocumentViewer";
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
   const [fileName, setFileName] = useState<string>();
+  const [redactionList, setRedactionList] = useState<string[]>([]);
+
+  const handleRedactionList = (redactionList: string[]): void => {
+    setRedactionList(redactionList);
+  };
 
   const rawDocument = document ? document : {};
 
@@ -41,6 +46,8 @@ export const PrivacyFilter: React.FunctionComponent = () => {
       reader.onabort = () => console.log("File reading was aborted.");
       reader.onerror = () => console.log("File reading has failed.");
       reader.onloadend = () => {
+        // Reset redaction list
+        setRedactionList([]);
         const contents = reader.result as string; // Need to typecast even though we readAsText, otherwise JSON parse will throw an error
         setDocument(JSON.parse(contents));
         setFileName(file.name);
@@ -80,7 +87,12 @@ export const PrivacyFilter: React.FunctionComponent = () => {
           </div>
         </div>
         <div className="col-span-2">
-          <DocumentViewer document={rawDocument} fileName={fileName} />
+          <DocumentViewer
+            document={rawDocument}
+            fileName={fileName}
+            redactionList={redactionList}
+            setRedactionList={handleRedactionList}
+          />
         </div>
       </div>
     </>

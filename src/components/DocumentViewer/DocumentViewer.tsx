@@ -1,6 +1,6 @@
 import { obfuscateDocument, getData } from "@govtechsg/open-attestation";
 import { saveAs } from "file-saver";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { RecommendationsDisplay } from "../RecommendationsDisplay";
 import { findAllSensitiveFields } from "../SensitiveFieldsFinder";
 import { flatten } from "../shared";
@@ -8,14 +8,21 @@ import { flatten } from "../shared";
 interface DocumentViewerProps {
   document?: any;
   fileName?: string;
+  redactionList: string[];
+  setRedactionList: (redactionList: string[]) => void;
 }
 
 interface ButtonProps {
   path: string;
 }
 
-export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ document, fileName }) => {
-  const [redactionList, setRedactionList] = useState<string[]>([]);
+export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
+  document,
+  fileName,
+  redactionList,
+  setRedactionList,
+}) => {
+  // const [redactionList, setRedactionList] = useState<string[]>([]);
   const toggleChoice = (path: string): void => {
     const _redactionList: string[] = [...redactionList];
     const index = _redactionList.indexOf(path, 0);
@@ -27,9 +34,7 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({ d
     // console.log(_redactionList);
     setRedactionList(_redactionList);
   };
-  useEffect(() => {
-    console.log("redactionList:", redactionList);
-  });
+
   const download = (): void => {
     const redacted = obfuscateDocument(document, redactionList);
     console.log(redactionList, redacted);
