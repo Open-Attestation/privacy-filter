@@ -1,13 +1,13 @@
 import { obfuscateDocument, getData } from "@govtechsg/open-attestation";
 import { saveAs } from "file-saver";
-import React from "react";
+import React, { useEffect } from "react";
 import { RecommendationsDisplay } from "../RecommendationsDisplay";
-import { findAllSensitiveFields } from "../SensitiveFieldsFinder";
 import { flatten } from "../shared";
 
 interface DocumentViewerProps {
-  document?: any;
+  wrappedDocument?: any;
   fileName?: string;
+  sensitiveFields: string[];
   redactionList: string[];
   setRedactionList: (redactionList: string[]) => void;
 }
@@ -17,12 +17,12 @@ interface ButtonProps {
 }
 
 export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
-  document,
+  wrappedDocument,
   fileName,
+  sensitiveFields,
   redactionList,
   setRedactionList,
 }) => {
-  // const [redactionList, setRedactionList] = useState<string[]>([]);
   const toggleChoice = (path: string): void => {
     const _redactionList: string[] = [...redactionList];
     const index = _redactionList.indexOf(path, 0);
@@ -31,12 +31,15 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
     } else {
       _redactionList.push(path);
     }
-    // console.log(_redactionList);
     setRedactionList(_redactionList);
   };
 
+  useEffect(() => {
+    console.log("In DocumentViewer.tsx", redactionList);
+  }, [redactionList]);
+
   const download = (): void => {
-    const redacted = obfuscateDocument(document, redactionList);
+    const redacted = obfuscateDocument(wrappedDocument, redactionList);
     console.log(redactionList, redacted);
     const blob = new Blob([JSON.stringify(redacted, null, 2)], {
       type: "application/json",
@@ -63,20 +66,9 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
       </button>
     );
   };
-  if (Object.keys(document).length) {
-    const data = flatten(getData(document), "");
-    const sensitiveFields = findAllSensitiveFields(data);
+  if (Object.keys(wrappedDocument).length) {
+    const data = flatten(getData(wrappedDocument), "");
     const hasSensitiveFields = sensitiveFields.length > 0;
-
-    if (hasSensitiveFields) {
-      const _redactionList: string[] = [...redactionList];
-      sensitiveFields.forEach((row: { path: string }) => {
-        _redactionList.push(row.path);
-      });
-      // setRedactionList(_redactionList);
-      console.log(_redactionList);
-    }
-
     return (
       <>
         <div className="bg-gray-300 font-bold rounded-t px-4 py-2">Document Viewer</div>

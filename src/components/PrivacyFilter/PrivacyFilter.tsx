@@ -1,18 +1,38 @@
-import { WrappedDocument } from "@govtechsg/open-attestation";
-import React, { useMemo, useState } from "react";
+import { WrappedDocument, getData } from "@govtechsg/open-attestation";
+import React, { useMemo, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { DocumentViewer } from "../DocumentViewer";
+import { findAllSensitiveFields } from "../SensitiveFieldsFinder";
+import { flatten } from "../shared";
 
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
   const [fileName, setFileName] = useState<string>();
   const [redactionList, setRedactionList] = useState<string[]>([]);
+  const [sensitiveFields, setSensitiveFields] = useState<string[]>([]);
 
   const handleRedactionList = (redactionList: string[]): void => {
     setRedactionList(redactionList);
   };
 
-  const rawDocument = document ? document : {};
+  const wrappedDocument = document ? document : {};
+
+  useEffect(() => {
+    console.log("document", document);
+    if (document) {
+      const data = flatten(getData(document), "");
+      const _sensitiveFields = findAllSensitiveFields(data);
+      console.log(_sensitiveFields);
+      if (_sensitiveFields.length > 0) {
+        const _redactionList: string[] = [...redactionList];
+        _sensitiveFields.forEach((row: { path: string }) => {
+          _redactionList.push(row.path);
+        });
+        setRedactionList(_redactionList);
+        setSensitiveFields(_sensitiveFields);
+      }
+    }
+  }, [document]);
 
   const baseStyle: React.CSSProperties = {
     flex: 1,
@@ -48,9 +68,10 @@ export const PrivacyFilter: React.FunctionComponent = () => {
       reader.onloadend = () => {
         // Reset redaction list
         setRedactionList([]);
+        setSensitiveFields([]);
         const contents = reader.result as string; // Need to typecast even though we readAsText, otherwise JSON parse will throw an error
-        setDocument(JSON.parse(contents));
         setFileName(file.name);
+        setDocument(JSON.parse(contents));
       };
 
       reader.readAsText(file);
@@ -88,8 +109,9 @@ export const PrivacyFilter: React.FunctionComponent = () => {
         </div>
         <div className="col-span-2">
           <DocumentViewer
-            document={rawDocument}
+            wrappedDocument={wrappedDocument}
             fileName={fileName}
+            sensitiveFields={sensitiveFields}
             redactionList={redactionList}
             setRedactionList={handleRedactionList}
           />
