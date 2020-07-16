@@ -69,11 +69,12 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
     const hasSensitiveFields = sensitiveFields.length > 0;
 
     if (hasSensitiveFields) {
-      // const _redactionList: string[] = [...redactionList];
-      // sensitiveFields.map((row: { path: string }) => {
-      //   _redactionList.push(row.path);
-      // });
+      const _redactionList: string[] = [...redactionList];
+      sensitiveFields.forEach((row: { path: string }) => {
+        _redactionList.push(row.path);
+      });
       // setRedactionList(_redactionList);
+      console.log(_redactionList);
     }
 
     return (
