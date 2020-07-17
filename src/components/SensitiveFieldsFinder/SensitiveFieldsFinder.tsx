@@ -1,7 +1,7 @@
 import { Data } from "../shared";
 
 export const findAllSensitiveFields: any = (document: Data[]) => {
-  const paths = ["nric", "email", "email_address", "phone", "phone_number"];
+  const paths = ["nric", "email", "email_address", "phone", "phone_number", "address"];
   const sensitiveFields = [] as Data[];
 
   document.forEach((data) => {
