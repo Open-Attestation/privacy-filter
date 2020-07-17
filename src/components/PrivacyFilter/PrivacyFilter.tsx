@@ -18,11 +18,9 @@ export const PrivacyFilter: React.FunctionComponent = () => {
   const wrappedDocument = document ? document : {};
 
   useEffect(() => {
-    console.log("document", document);
     if (document) {
       const data = flatten(getData(document), "");
       const _sensitiveFields = findAllSensitiveFields(data);
-      console.log(_sensitiveFields);
       if (_sensitiveFields.length > 0) {
         const _redactionList: string[] = [];
         _sensitiveFields.forEach((row: { path: string }) => {

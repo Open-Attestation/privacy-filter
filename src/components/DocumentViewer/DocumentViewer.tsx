@@ -1,6 +1,6 @@
 import { obfuscateDocument, getData } from "@govtechsg/open-attestation";
 import { saveAs } from "file-saver";
-import React, { useEffect } from "react";
+import React from "react";
 import { RecommendationsDisplay } from "../RecommendationsDisplay";
 import { flatten } from "../shared";
 
@@ -33,10 +33,6 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
     }
     setRedactionList(_redactionList);
   };
-
-  useEffect(() => {
-    console.log("In DocumentViewer.tsx", redactionList);
-  }, [redactionList]);
 
   const download = (): void => {
     const redacted = obfuscateDocument(wrappedDocument, redactionList);
@@ -74,7 +70,10 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
         <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3 overflow-auto">
           <RecommendationsDisplay sensitiveFields={sensitiveFields} />
           <hr className="my-4" />
-          <p className="mb-2">We recommend you to still check through the data.</p>
+          <p className="mb-2">
+            We recommend you to still check through your data. When you're ready, scroll down to the end of the page to
+            download your OpenCert file.
+          </p>
           <table className="table-fixed w-full mb-2">
             <thead>
               <tr>
@@ -110,7 +109,7 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => download()}
           >
-            Redact
+            Download
           </button>
         </div>
       </>

@@ -35,8 +35,7 @@ export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisp
             No sensitive information detected
           </p>
         </div>
-        Seems like your OpenAttestation file doesn't contain any potentially sensitive information. You might still want
-        to review your OpenAttestation contents below though.
+        Seems like your OpenAttestation file doesn't contain any potentially sensitive information.
       </>
     );
   }
