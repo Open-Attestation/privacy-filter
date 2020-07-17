@@ -68,21 +68,14 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
   };
   if (Object.keys(wrappedDocument).length) {
     const data = flatten(getData(wrappedDocument), "");
-    const hasSensitiveFields = sensitiveFields.length > 0;
     return (
       <>
         <div className="bg-gray-300 font-bold rounded-t px-4 py-2">Document Viewer</div>
         <div className="border border-t-0 border-gray-200 rounded-b px-4 py-3 overflow-auto">
-          <RecommendationsDisplay hasSensitiveFields={hasSensitiveFields} />
-
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => download()}
-          >
-            Redact
-          </button>
-
-          <table className="table-fixed w-full">
+          <RecommendationsDisplay sensitiveFields={sensitiveFields} />
+          <hr className="my-4" />
+          <p className="mb-2">We recommend you to still check through the data.</p>
+          <table className="table-fixed w-full mb-2">
             <thead>
               <tr>
                 <th className="md:w-3/12 px-2 py-2">Path</th>
@@ -113,6 +106,12 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
               })}
             </tbody>
           </table>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => download()}
+          >
+            Redact
+          </button>
         </div>
       </>
     );
