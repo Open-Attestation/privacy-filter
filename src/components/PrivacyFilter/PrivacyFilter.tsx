@@ -3,19 +3,17 @@ import React, { useMemo, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { DocumentViewer } from "../DocumentViewer";
 import { findAllSensitiveFields } from "../SensitiveFieldsFinder";
-import { flatten } from "../shared";
+import { flatten, Data } from "../shared";
 
 export const PrivacyFilter: React.FunctionComponent = () => {
   const [document, setDocument] = useState<WrappedDocument>();
   const [fileName, setFileName] = useState<string>();
   const [redactionList, setRedactionList] = useState<string[]>([]);
-  const [sensitiveFields, setSensitiveFields] = useState<string[]>([]);
+  const [sensitiveFields, setSensitiveFields] = useState<Data[]>([]);
 
   const handleRedactionList = (redactionList: string[]): void => {
     setRedactionList(redactionList);
   };
-
-  const wrappedDocument = document ? document : {};
 
   useEffect(() => {
     if (document) {
@@ -107,7 +105,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
         </div>
         <div className="col-span-2">
           <DocumentViewer
-            wrappedDocument={wrappedDocument}
+            wrappedDocument={document}
             fileName={fileName}
             sensitiveFields={sensitiveFields}
             redactionList={redactionList}

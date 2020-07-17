@@ -1,14 +1,13 @@
 import React from "react";
 import { RecommendationsTable } from "../RecommendationsTable";
+import { Data } from "../shared";
 
 interface RecommendationsDisplayProps {
-  sensitiveFields?: any;
+  sensitiveFields?: Data[];
 }
 
 export const RecommendationsDisplay: React.FunctionComponent<RecommendationsDisplayProps> = ({ sensitiveFields }) => {
-  const hasSensitiveFields = sensitiveFields.length > 0;
-
-  if (hasSensitiveFields) {
+  if (sensitiveFields?.length) {
     return (
       <div>
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 mb-2" role="alert">

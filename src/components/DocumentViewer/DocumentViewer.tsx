@@ -2,12 +2,12 @@ import { obfuscateDocument, getData } from "@govtechsg/open-attestation";
 import { saveAs } from "file-saver";
 import React from "react";
 import { RecommendationsDisplay } from "../RecommendationsDisplay";
-import { flatten } from "../shared";
+import { flatten, Data } from "../shared";
 
 interface DocumentViewerProps {
   wrappedDocument?: any;
   fileName?: string;
-  sensitiveFields: string[];
+  sensitiveFields: Data[];
   redactionList: string[];
   setRedactionList: (redactionList: string[]) => void;
 }
@@ -36,7 +36,6 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
 
   const download = (): void => {
     const redacted = obfuscateDocument(wrappedDocument, redactionList);
-    console.log(redactionList, redacted);
     const blob = new Blob([JSON.stringify(redacted, null, 2)], {
       type: "application/json",
     });
@@ -62,7 +61,8 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
       </button>
     );
   };
-  if (Object.keys(wrappedDocument).length) {
+  // TODO: In future MR, add
+  if (wrappedDocument) {
     const data = flatten(getData(wrappedDocument), "");
     return (
       <>
