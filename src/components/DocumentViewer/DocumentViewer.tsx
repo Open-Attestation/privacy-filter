@@ -1,11 +1,11 @@
-import { obfuscateDocument, getData } from "@govtechsg/open-attestation";
+import { obfuscateDocument, getData, WrappedDocument } from "@govtechsg/open-attestation";
 import { saveAs } from "file-saver";
 import React from "react";
 import { RecommendationsDisplay } from "../RecommendationsDisplay";
 import { flatten, Data } from "../shared";
 
 interface DocumentViewerProps {
-  wrappedDocument?: any;
+  wrappedDocument?: WrappedDocument;
   fileName?: string;
   sensitiveFields: Data[];
   redactionList: string[];
@@ -35,11 +35,13 @@ export const DocumentViewer: React.FunctionComponent<DocumentViewerProps> = ({
   };
 
   const download = (): void => {
-    const redacted = obfuscateDocument(wrappedDocument, redactionList);
-    const blob = new Blob([JSON.stringify(redacted, null, 2)], {
-      type: "application/json",
-    });
-    saveAs(blob, fileName);
+    if (wrappedDocument) {
+      const redacted = obfuscateDocument(wrappedDocument, redactionList);
+      const blob = new Blob([JSON.stringify(redacted, null, 2)], {
+        type: "application/json",
+      });
+      saveAs(blob, fileName);
+    }
   };
   const RedactButton: React.FunctionComponent<ButtonProps> = ({ path }) => {
     return (
