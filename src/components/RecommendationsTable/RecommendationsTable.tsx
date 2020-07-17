@@ -14,7 +14,6 @@ export const RecommendationsTable: React.FunctionComponent<RecommendationsTableP
             <tr>
               <th className="px-4 py-2">Path</th>
               <th className="px-4 py-2">Value</th>
-              <th className="px-4 py-2" />
             </tr>
           </thead>
           <tbody>
@@ -26,11 +25,6 @@ export const RecommendationsTable: React.FunctionComponent<RecommendationsTableP
                   </td>
                   <td className="border px-4 py-2">
                     <pre className="truncate">{row.value}</pre>
-                  </td>
-                  <td className="border px-4 py-2">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                      Redact
-                    </button>
                   </td>
                 </tr>
               );
