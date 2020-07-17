@@ -24,7 +24,7 @@ export const PrivacyFilter: React.FunctionComponent = () => {
       const _sensitiveFields = findAllSensitiveFields(data);
       console.log(_sensitiveFields);
       if (_sensitiveFields.length > 0) {
-        const _redactionList: string[] = [...redactionList];
+        const _redactionList: string[] = [];
         _sensitiveFields.forEach((row: { path: string }) => {
           _redactionList.push(row.path);
         });
